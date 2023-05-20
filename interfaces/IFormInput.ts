@@ -9,3 +9,9 @@ export interface IFormInput {
     maxLength: number;
 }
 
+export interface IPersonalInfo {
+    [key: string]: string,
+    name: string,
+    email: string,
+    phone: string,
+}

@@ -1,21 +1,29 @@
-import { StyleSheet, TextInput, View } from 'react-native'
+import { NativeSyntheticEvent, StyleSheet, TextInput, TextInputChangeEventData, View } from 'react-native'
 import { BodyText } from '../Text/Text'
 import { colorsPalette } from '../../styles'
 import { useState } from 'react'
 import { KeyboardType } from '../../interfaces/IFormInput'
 
-
 interface Props {
+    name: string,
     label?: string,
     placeholder?: string,
     maxLenght?: number,
     keyboardType?: KeyboardType,
-    errorMessage?: string
+    errorMessage?: string,
+    value?: string,
+    handleChange?: (name: string, text: string) => void,
 }
 
 export function Field(props: Props): JSX.Element {
 
     const [isFocus, setIsFocus] = useState<boolean>(false)
+
+    function handleChangeText(text: string) {
+        if (props.handleChange) {
+            props.handleChange(props.name, text)
+        }
+    }
 
     return (
         <>
@@ -40,6 +48,8 @@ export function Field(props: Props): JSX.Element {
                 onEndEditing={(e) => setIsFocus(false)}
                 onFocus={() => setIsFocus(true)}
                 cursorColor={colorsPalette.denim.color}
+                value={props.value}
+                onChangeText={handleChangeText}
             />
         </>
     )

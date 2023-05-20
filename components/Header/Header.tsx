@@ -4,7 +4,6 @@ import { colorsPalette } from '../../styles'
 
 interface Props {
     currentStep: number,
-    maxStep: number,
 }
 
 const IMG_HEADER_BG = require("../../assets/images/bg-sidebar-mobile.png")
@@ -12,7 +11,7 @@ const IMG_HEADER_BG = require("../../assets/images/bg-sidebar-mobile.png")
 export default function Header(props: Props): JSX.Element {
 
     const steps: JSX.Element[] = []
-    for (let i = 1; i < props.maxStep + 1; i++) {
+    for (let i = 1; i < 5; i++) {
         steps.push(
             <View
                 key={`step-${i}`}

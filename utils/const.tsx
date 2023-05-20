@@ -16,17 +16,29 @@ export const PERSONAL_INFO_INPUTS: IFormInput[] = [
         maxLength: 20
     },
     {
-        name: "emailAddress",
+        name: "email",
         label: "Email Address",
         placeHolder: "e.g. stephenking@lorem.com",
         keyboardType: "email-address",
         maxLength: 50
     },
     {
-        name: "phoneNumber",
+        name: "phone",
         label: "Phone Number",
         placeHolder: "e.g. +1 234 567 890",
         keyboardType: "numeric",
         maxLength: 10
     },
 ]
+
+export const theme = {
+    dark: false,
+    colors: {
+        primary: "",
+        background: "transparent",
+        card: "",
+        text: "",
+        border: "",
+        notification: "",
+    }
+}

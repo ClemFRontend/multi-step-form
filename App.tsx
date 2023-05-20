@@ -1,16 +1,31 @@
 import { useFonts, Ubuntu_400Regular, Ubuntu_700Bold, Ubuntu_500Medium } from '@expo-google-fonts/ubuntu';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Alert, Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, Image, NativeSyntheticEvent, StyleSheet, Text, TextInputChangeEventData, TouchableWithoutFeedback, View } from 'react-native';
 import Header from './components/Header/Header';
 import { colorsPalette } from './styles';
 import { MultiStepForm } from './components/MultiStepForm/MultiStepForm';
 import Footer from './components/Footer/Footer';
 import { exitField } from './utils/common';
+import { NavigationContainer } from '@react-navigation/native';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
+import { PersonalInfo } from './components/MultiStepForm/PersonalInfo/PersonalInfo';
+import { SelectPlan } from './components/MultiStepForm/SelectPlan/SelectPlan';
+import { horizontalTransition } from './utils/animations';
+import { theme } from './utils/const';
+import { IPersonalInfo } from './interfaces/IFormInput';
+
+const Stack = createStackNavigator();
 
 export default function App(): JSX.Element {
 
   const [step, setStep] = useState<number>(1)
+  const [personalInfo, setPersonalInfo] = useState<IPersonalInfo>({
+    name: "",
+    email: "",
+    phone: "",
+  })
 
   let [fontsLoaded] = useFonts({
     "Ubuntu-Regular": Ubuntu_400Regular,
@@ -31,25 +46,43 @@ export default function App(): JSX.Element {
     }
   }
 
+  function handleChangePersonalInfo(name: string, text: string): void {
+    setPersonalInfo({
+      ...personalInfo,
+      [name]: text
+    })
+  }
+
   return (
     <>
+      <StatusBar style="auto" />
       <TouchableWithoutFeedback touchSoundDisabled onPress={() => exitField()}>
         <View style={styles.container}>
-          <StatusBar style="auto" />
-          <Header currentStep={step} maxStep={4} />
+          <Header currentStep={step} />
           <View style={styles.stepContainer}>
-            <MultiStepForm currentStep={step} />
+            <NavigationContainer theme={theme} >
+              <Stack.Navigator
+                initialRouteName="PersonalInfo"
+                screenOptions={{
+                  headerShown: false,
+                  ...horizontalTransition,
+                }}
+              >
+                <Stack.Screen name="PersonalInfo">
+                  {(props) =>
+                    <PersonalInfo
+                      {...props}
+                      handleChangeStep={setStep}
+                      handleChangeInfo={handleChangePersonalInfo}
+                      personalInfo={personalInfo}
+                    />}
+                </Stack.Screen>
+                <Stack.Screen name="SelectPlan">{(props) => <SelectPlan {...props} handleChangeStep={setStep} />}</Stack.Screen>
+              </Stack.Navigator>
+            </NavigationContainer>
           </View>
         </View>
       </TouchableWithoutFeedback>
-
-      {/* Footer */}
-      <View style={[
-        styles.footerContainer,
-        { justifyContent: step === 1 ? "flex-end" : "space-between" }
-      ]}>
-        <Footer currentStep={step} goToStep={handleChangeStep} />
-      </View>
     </>
   );
 }
@@ -60,11 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: colorsPalette.bg.color,
   },
   stepContainer: {
-    backgroundColor: colorsPalette.white.color,
-    marginHorizontal: 16,
-    paddingHorizontal: 24,
-    paddingVertical: 32,
-    borderRadius: 10,
+    flex: 1,
     marginTop: -73,
   },
   footerContainer: {

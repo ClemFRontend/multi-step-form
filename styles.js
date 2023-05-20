@@ -29,5 +29,26 @@ export const colorsPalette = StyleSheet.create({
 })
 
 export const globalStyles = StyleSheet.create({
-
+    stepContainer: {
+        display: "flex",
+        flex: 1,
+        justifyContent: "space-between",
+    },
+    // formContainer: {
+    //     backgroundColor: colorsPalette.white.color,
+    //     marginHorizontal: 16,
+    //     paddingHorizontal: 24,
+    //     paddingVertical: 32,
+    //     borderRadius: 10,
+    //     marginTop: -73,
+    //     position: "absolute",
+    // },
+    formContainer: {
+        backgroundColor: colorsPalette.white.color,
+        marginHorizontal: 16,
+        paddingHorizontal: 24,
+        paddingVertical: 32,
+        borderRadius: 10,
+        // marginTop: 50,
+    },
 })
