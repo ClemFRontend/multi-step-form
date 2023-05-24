@@ -1,23 +1,39 @@
-import { NativeSyntheticEvent, StyleSheet, TextInputChangeEventData, View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { globalStyles } from "../../../styles"
 import { StepHeader } from "../StepHeader/StepHeader"
 import { Field } from "../../Field/Field"
 import { IPersonalInfo } from "../../../interfaces/IFormInput"
 import { PERSONAL_INFO_INPUTS } from "../../../utils/const"
-import Footer from "../../Footer/Footer"
-// import { Portal } from "@gorhom/portal"
+import { useEffect } from "react"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
+import { MultiStepFormStackParamList } from "../../../interfaces/Navigation"
+import { IPersonalInfoErrors } from "../../../interfaces/IErrors"
 
 interface Props {
-    handleChangeStep: (step: number) => void,
     handleChangeInfo?: (name: string, text: string) => void,
     personalInfo: IPersonalInfo,
+    currentStep: number,
+    navigation: NativeStackNavigationProp<MultiStepFormStackParamList, "PersonalInfo">,
+    errors: IPersonalInfoErrors,
 }
 
-
 export function PersonalInfo(props: Props): JSX.Element {
+
+    const personalInfosStep: number = 1
+    useEffect(() => {
+        if (props.currentStep !== undefined) {
+            // if (props.currentStep === step - 1) {
+            //     props.navigation.goBack()
+            // }
+            if (props.currentStep === personalInfosStep + 1) {
+                props.navigation.navigate("SelectPlan")
+            }
+        }
+    }, [props.currentStep])
+
     return (
         <View style={globalStyles.stepContainer}>
-            <View style={globalStyles.formContainer}>
+            <View style={globalStyles.stepSubContainer}>
                 <StepHeader
                     title="Personal info"
                     subtitle="Please provide your name, email address, and phone number."
@@ -34,12 +50,14 @@ export function PersonalInfo(props: Props): JSX.Element {
                                 maxLenght={input.maxLength}
                                 handleChange={props.handleChangeInfo}
                                 value={props.personalInfo[input.name]}
+                                errorMessage={props.errors[input.name]}
+                                autoCapitalize={input.autoCapitalize}
+                                autoCorrect={input.autoCorrect}
                             />
                         </View>
                     )
                 })}
             </View>
-            <Footer handleChangeStep={props.handleChangeStep} currentStep={1} />
         </View>
     )
 }

@@ -2,7 +2,6 @@ import { StyleSheet, View } from 'react-native'
 import Button from '../Button/Button'
 import { BTN_ACTION_TYPE } from '../../utils/const'
 import { colorsPalette } from '../../styles'
-import { useNavigation } from '@react-navigation/native';
 
 interface Props {
     currentStep: number,
@@ -10,8 +9,6 @@ interface Props {
 }
 
 export default function Footer(props: Props): JSX.Element {
-
-    const navigation = useNavigation()
 
     let buttons: JSX.Element = <></>
 
@@ -21,7 +18,6 @@ export default function Footer(props: Props): JSX.Element {
                 type='secondary'
                 handlePress={(e) => {
                     props.handleChangeStep(2)
-                    navigation.navigate('SelectPlan')
                 }}
             >{BTN_ACTION_TYPE.nextStep}</Button>
             break
@@ -31,7 +27,6 @@ export default function Footer(props: Props): JSX.Element {
                 <Button
                     handlePress={(e) => {
                         props.handleChangeStep(1)
-                        navigation.goBack()
 
                     }}
                     type='tiercary'>
@@ -40,9 +35,7 @@ export default function Footer(props: Props): JSX.Element {
                 <Button
                     type='secondary'
                     handlePress={(e) => {
-                        // props.handleChangeStep(3)
-                        // navigation.navigate('SelectPlan')
-
+                        props.handleChangeStep(3)
                     }}>
                     {BTN_ACTION_TYPE.nextStep}
                 </Button>
@@ -84,6 +77,7 @@ export default function Footer(props: Props): JSX.Element {
                     {BTN_ACTION_TYPE.confirm}
                 </Button>
             </>
+            break
 
         default:
             buttons = <></>

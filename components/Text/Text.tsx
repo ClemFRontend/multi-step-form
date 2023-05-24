@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextStyle } from 'react-native'
 import { colorsPalette } from '../../styles'
 
 interface Props {
-    children?: JSX.Element | string,
+    children?: JSX.Element | string | string[],
     customStyle?: Object,
     size?: "S" | "M" | "L",
     fontWeigth?: "regular" | "medium" | "bold",

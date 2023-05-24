@@ -13,6 +13,12 @@ export const colorsPalette = StyleSheet.create({
     skyBlue: {
         color: "#BEE2FD",
     },
+    veryLightGrey: {
+        color: "#F8F9FF",
+    },
+    lightGrey: {
+        color: "#D6D9E6"
+    },
     grey: {
         color: "#9699AA",
     },
@@ -34,21 +40,11 @@ export const globalStyles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
     },
-    // formContainer: {
-    //     backgroundColor: colorsPalette.white.color,
-    //     marginHorizontal: 16,
-    //     paddingHorizontal: 24,
-    //     paddingVertical: 32,
-    //     borderRadius: 10,
-    //     marginTop: -73,
-    //     position: "absolute",
-    // },
-    formContainer: {
+    stepSubContainer: {
         backgroundColor: colorsPalette.white.color,
         marginHorizontal: 16,
         paddingHorizontal: 24,
         paddingVertical: 32,
         borderRadius: 10,
-        // marginTop: 50,
     },
 })
