@@ -6,8 +6,9 @@ import { IPersonalInfo } from "../../../interfaces/IFormInput"
 import { PERSONAL_INFO_INPUTS } from "../../../utils/const"
 import { useEffect } from "react"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
-import { MultiStepFormStackParamList } from "../../../interfaces/Navigation"
+import { MultiStepFormStackParamList } from "../../../types/Navigation"
 import { IPersonalInfoErrors } from "../../../interfaces/IErrors"
+import { MultiStepFormEnums } from "../MultiStepFormEnums"
 
 interface Props {
     handleChangeInfo?: (name: string, text: string) => void,
@@ -19,15 +20,10 @@ interface Props {
 
 export function PersonalInfo(props: Props): JSX.Element {
 
-    const personalInfosStep: number = 1
+    const step: number = MultiStepFormEnums.PersonalInfo
     useEffect(() => {
-        if (props.currentStep !== undefined) {
-            // if (props.currentStep === step - 1) {
-            //     props.navigation.goBack()
-            // }
-            if (props.currentStep === personalInfosStep + 1) {
-                props.navigation.navigate("SelectPlan")
-            }
+        if (props.currentStep === step + 1) {
+            props.navigation.navigate("SelectPlan")
         }
     }, [props.currentStep])
 

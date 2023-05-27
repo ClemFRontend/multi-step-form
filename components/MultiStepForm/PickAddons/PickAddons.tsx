@@ -2,12 +2,13 @@ import { StyleSheet, View } from "react-native"
 import { colorsPalette, globalStyles } from "../../../styles"
 import { BodyText, HeaderText } from "../../Text/Text"
 import { StepHeader } from "../StepHeader/StepHeader"
-import { PlanType } from "../../../interfaces/IPlan"
+import { PlanType } from "../../../types/Plan"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
-import { MultiStepFormStackParamList } from "../../../interfaces/Navigation"
+import { MultiStepFormStackParamList } from "../../../types/Navigation"
 import { useEffect, useState } from "react"
 import { Addon, AddonsPicker } from "../../AddonsPicker/AddonsPicker"
 import { ADDONS } from "../../../utils/const"
+import { MultiStepFormEnums } from "../MultiStepFormEnums"
 
 interface Props {
     planType: PlanType,
@@ -19,16 +20,14 @@ interface Props {
 
 export function PickAddons(props: Props): JSX.Element {
 
-    const step: number = 3
+    const step: number = MultiStepFormEnums.PickAddons
 
     useEffect(() => {
-        if (props.currentStep !== undefined) {
-            if (props.currentStep === step - 1) {
-                props.navigation.navigate("SelectPlan")
-            }
-            if (props.currentStep === step + 1) {
-                props.navigation.navigate("FinishUp")
-            }
+        if (props.currentStep === step - 1) {
+            props.navigation.navigate("SelectPlan")
+        }
+        if (props.currentStep === step + 1) {
+            props.navigation.navigate("FinishUp")
         }
     }, [props.currentStep])
 

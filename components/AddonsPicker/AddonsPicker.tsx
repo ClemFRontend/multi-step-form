@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { colorsPalette } from '../../styles'
 import { BodyText } from '../Text/Text'
 import React, { ReactNode, cloneElement } from 'react';
-import { ICON_CHECK } from '../../assets/icons/icons';
+import { IconCheck } from '../../assets/icons/icons';
 
 interface Props {
   addonsChecked: string[]
@@ -51,7 +51,7 @@ export function Addon(props: CheckboxProps): JSX.Element {
             borderColor: isChecked ? "transparent" : colorsPalette.lightGrey.color,
             backgroundColor: isChecked ? colorsPalette.purple.color : "transparent",
           }]}>
-          {isChecked && <ICON_CHECK />}
+          {isChecked && <IconCheck />}
         </View>
         <View style={styles.textContainer}>
           <BodyText fontWeigth='medium'>{props.name}</BodyText>

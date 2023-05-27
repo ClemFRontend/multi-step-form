@@ -1,7 +1,7 @@
 import { useFonts, Ubuntu_400Regular, Ubuntu_700Bold, Ubuntu_500Medium } from '@expo-google-fonts/ubuntu';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableWithoutFeedback, View, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, TouchableWithoutFeedback, View, KeyboardAvoidingView, Platform } from 'react-native';
 import Header from './components/Header/Header';
 import { colorsPalette } from './styles';
 import Footer from './components/Footer/Footer';
@@ -13,27 +13,28 @@ import { SelectPlan } from './components/MultiStepForm/SelectPlan/SelectPlan';
 import { horizontalTransition } from './utils/animations';
 import { ERROR_FIELD_REQUIRED, ERROR_FORMAT_INVALID, ERROR_SELECT_PLAN, REGEX_EMAIL, REGEX_NAME, REGEX_PHONE, theme } from './utils/const';
 import { IPersonalInfo } from './interfaces/IFormInput';
-import { MultiStepFormStackParamList, MyForm } from './interfaces/Navigation';
+import { MultiStepFormStackParamList } from './types/Navigation';
 import { PickAddons } from './components/MultiStepForm/PickAddons/PickAddons';
-import { PlanType } from './interfaces/IPlan';
+import { PlanType } from './types/Plan';
 import { IPersonalInfoErrors } from './interfaces/IErrors';
 import { FinishUp } from './components/MultiStepForm/FinishUp/FinishUp';
+import { MultiStepFormEnums } from './components/MultiStepForm/MultiStepFormEnums';
 
 const Stack = createStackNavigator<MultiStepFormStackParamList>();
 
 export default function App(): JSX.Element {
 
-  const [step, setStep] = useState<number>(1)
+  const [step, setStep] = useState<number>(MultiStepFormEnums.PersonalInfo)
   const [personalInfo, setPersonalInfo] = useState<IPersonalInfo>({
-    name: "c p",
-    email: "clem@g.co",
-    phone: "111111111",
+    name: "Corinnnne Lebeault",
+    email: "patrice.lbt@diiage.org",
+    phone: "11111111",
   })
   const [errorMessages, setErrorMessages] = useState({})
   const [planSelected, setPlanSelected] = useState("")
   const [planType, setPlanType] = useState<PlanType>("Monthly")
   const [addons, setAddons] = useState<string[]>([])
-
+  const [formIsSubmit, setFormIsSubmit] = useState<boolean>(false)
 
   let [fontsLoaded] = useFonts({
     "Ubuntu-Regular": Ubuntu_400Regular,
@@ -46,7 +47,8 @@ export default function App(): JSX.Element {
   }
 
   function handleSubmit() {
-    console.log("submit")
+    // Actions to submit form...
+    setFormIsSubmit(true)
   }
 
   function handleStepValidation(step: number): boolean {
@@ -85,6 +87,7 @@ export default function App(): JSX.Element {
 
         setErrorMessages(errors)
         return stepFormIsValid
+
       case 2:
         if (!planSelected) {
           errors = {
@@ -92,8 +95,10 @@ export default function App(): JSX.Element {
           }
           stepFormIsValid = false
         }
+
         setErrorMessages(errors)
         return stepFormIsValid
+
       default:
         return stepFormIsValid
 
@@ -103,12 +108,10 @@ export default function App(): JSX.Element {
   function handleChangeStep(stepToGo: number): void {
 
     if (handleStepValidation(step)) {
-
-      if (step !== 5) {
+      if (stepToGo !== 5) {
         setStep(stepToGo)
       }
       else {
-        Alert.alert("Form confirmed !")
         handleSubmit()
       }
     }
@@ -196,12 +199,21 @@ export default function App(): JSX.Element {
                   {(props) =>
                     <FinishUp
                       {...props}
+                      planSelected={planSelected}
+                      planType={planType}
+                      addonsChecked={addons}
+                      togglePlanType={togglePlanType}
                       currentStep={step}
+                      formIsSubmit={formIsSubmit}
                     />}
                 </Stack.Screen>
               </Stack.Navigator>
             </NavigationContainer>
-            <Footer handleChangeStep={handleChangeStep} currentStep={step} />
+            <Footer
+              handleChangeStep={handleChangeStep}
+              currentStep={step}
+              formIsSubmit={formIsSubmit}
+            />
           </View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>

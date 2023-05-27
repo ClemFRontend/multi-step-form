@@ -6,9 +6,3 @@ export type MultiStepFormStackParamList = {
     FinishUp: undefined;
 };
 
-export enum MyForm {
-    PersonalInfo,
-    SelectPlan,
-    PickAddons,
-    FinishUp,
-}

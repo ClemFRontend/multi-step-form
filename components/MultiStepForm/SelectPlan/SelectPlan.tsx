@@ -1,15 +1,15 @@
 import { StyleSheet, Switch, View } from "react-native"
 import { colorsPalette, globalStyles } from "../../../styles"
 import { StepHeader } from "../StepHeader/StepHeader"
-import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MultiStepFormStackParamList } from "../../../interfaces/Navigation";
+import { MultiStepFormStackParamList } from "../../../types/Navigation";
 import { OptionPicker } from "../../OptionsPicker/OptionsPicker";
 import { SELECT_PLAN } from "../../../utils/const";
 import { BodyText } from "../../Text/Text";
 import { ISelectPlanError } from "../../../interfaces/IErrors";
-import { PlanType } from "../../../interfaces/IPlan";
+import { PlanType } from "../../../types/Plan";
+import { MultiStepFormEnums } from "../MultiStepFormEnums";
 
 interface Props {
     currentStep: number,
@@ -23,7 +23,7 @@ interface Props {
 
 export function SelectPlan(props: Props): JSX.Element {
 
-    const step: number = 2
+    const step: number = MultiStepFormEnums.SelectPlan
 
     function handleChange() {
         if (props.togglePlanType) {
@@ -32,14 +32,12 @@ export function SelectPlan(props: Props): JSX.Element {
     }
 
     useEffect(() => {
-        if (props.currentStep !== undefined) {
-            if (props.currentStep === step - 1) {
-                props.navigation.navigate("PersonalInfo")
-            }
-            if (props.currentStep === step + 1) {
+        if (props.currentStep === step - 1) {
+            props.navigation.navigate("PersonalInfo")
+        }
+        if (props.currentStep === step + 1) {
 
-                props.navigation.navigate("PickAddons")
-            }
+            props.navigation.navigate("PickAddons")
         }
     }, [props.currentStep])
 
@@ -53,6 +51,7 @@ export function SelectPlan(props: Props): JSX.Element {
                         style={styles.header}
                     />
                     {props.errors.plan && <BodyText fontWeigth="bold" customStyle={styles.error} >{props.errors.plan}</BodyText>}
+
                     {SELECT_PLAN.map((plan) => {
                         const price = props.planType === "Monthly" ? plan.price.monthly : plan.price.yearly
                         const priceStr = props.planType === "Monthly" ? `$${price}/mo` : `$${price}/yr`

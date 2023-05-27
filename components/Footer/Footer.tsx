@@ -5,6 +5,7 @@ import { colorsPalette } from '../../styles'
 
 interface Props {
     currentStep: number,
+    formIsSubmit: boolean,
     handleChangeStep: (step: number) => void,
 }
 
@@ -85,12 +86,17 @@ export default function Footer(props: Props): JSX.Element {
     }
 
     return (
-        <View style={[
-            styles.footerContainer,
-            { justifyContent: props.currentStep === 1 ? "flex-end" : "space-between" }
-        ]}>
-            {buttons}
-        </View>
+        <>
+            {props.formIsSubmit ?
+                <></>
+                :
+                <View style={[
+                    styles.footerContainer,
+                    { justifyContent: props.currentStep === 1 ? "flex-end" : "space-between" }
+                ]}>
+                    {buttons}
+                </View>}
+        </>
     )
 }
 

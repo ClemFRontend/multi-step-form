@@ -1,4 +1,4 @@
-import { ICON_ADVANCED, ICON_ARCADE, ICON_PRO } from "../assets/icons/icons";
+import { IconAdvanced, IconArcade, IconPro } from "../assets/icons/icons";
 import { IBtnActionType } from "../interfaces/IBtnActionType"
 import { IFormInput } from "../interfaces/IFormInput"
 
@@ -6,7 +6,7 @@ import { IFormInput } from "../interfaces/IFormInput"
  * Regex
  */
 export const REGEX_NAME: RegExp = /^[a-zA-ZÀ-ÖØ-öø-ÿ\u0300-\u036f]+([-\s'][a-zA-ZÀ-ÖØ-öø-ÿ\u0300-\u036f]+)*\s[a-zA-ZÀ-ÖØ-öø-ÿ\u0300-\u036f]+([-\s'][a-zA-ZÀ-ÖØ-öø-ÿ\u0300-\u036f]+)*$/ // Regex that match "name lastname" with accents, dash, etc... Source : ChatGPT 🤖👀
-export const REGEX_EMAIL: RegExp = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+export const REGEX_EMAIL: RegExp = /^\s*(?:\+\d{1,3}\s*)?(?:\(\d{1,3}\)\s*)?[\w.-]*\w@(?:[\w-]+\.)+\w{2,}\s*$/
 export const REGEX_PHONE = /^\s*(?:\+\d{1,3}\s*)?(?:\(\d{1,3}\)\s*)?\d(?:[\s-]*\d){6,14}$/;
 /**
  * Error messages
@@ -66,7 +66,7 @@ export const SELECT_PLAN = [
             monthly: 9,
             yearly: 90,
         },
-        logo: <ICON_ARCADE />,
+        logo: <IconArcade />,
     },
     {
         label: "Advanced",
@@ -74,7 +74,7 @@ export const SELECT_PLAN = [
             monthly: 12,
             yearly: 120,
         },
-        logo: <ICON_ADVANCED />,
+        logo: <IconAdvanced />,
     },
     {
         label: "Pro",
@@ -82,7 +82,7 @@ export const SELECT_PLAN = [
             monthly: 15,
             yearly: 150,
         },
-        logo: <ICON_PRO />,
+        logo: <IconPro />,
     },
 ]
 
