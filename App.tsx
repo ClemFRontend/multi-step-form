@@ -147,8 +147,8 @@ export default function App(): JSX.Element {
     <>
       <StatusBar style="auto" />
       <TouchableWithoutFeedback touchSoundDisabled onPress={() => exitField()}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        <View
+          // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.container}>
           <Header currentStep={step} />
           <View style={styles.stepContainer}>
@@ -216,7 +216,7 @@ export default function App(): JSX.Element {
               formIsSubmit={formIsSubmit}
             />
           </View>
-        </KeyboardAvoidingView>
+        </View>
       </TouchableWithoutFeedback >
     </>
   );
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     flex: 1,
-    marginTop: -73,
+    marginTop: -50,
   },
   footerContainer: {
     height: 72,
