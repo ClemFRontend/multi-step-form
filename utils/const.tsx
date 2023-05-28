@@ -8,6 +8,7 @@ import { IFormInput } from "../interfaces/IFormInput"
 export const REGEX_NAME: RegExp = /^[a-zA-ZÀ-ÖØ-öø-ÿ\u0300-\u036f]+([-\s'][a-zA-ZÀ-ÖØ-öø-ÿ\u0300-\u036f]+)*\s[a-zA-ZÀ-ÖØ-öø-ÿ\u0300-\u036f]+([-\s'][a-zA-ZÀ-ÖØ-öø-ÿ\u0300-\u036f]+)*$/ // Regex that match "name lastname" with accents, dash, etc... Source : ChatGPT 🤖👀
 export const REGEX_EMAIL: RegExp = /^\s*(?:\+\d{1,3}\s*)?(?:\(\d{1,3}\)\s*)?[\w.-]*\w@(?:[\w-]+\.)+\w{2,}\s*$/
 export const REGEX_PHONE = /^\s*(?:\+\d{1,3}\s*)?(?:\(\d{1,3}\)\s*)?\d(?:[\s-]*\d){6,14}$/;
+
 /**
  * Error messages
  */

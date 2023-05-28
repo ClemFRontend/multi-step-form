@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 55,
+        marginTop: 70,
         marginHorizontal: 8,
     },
     active: {

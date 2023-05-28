@@ -5,12 +5,12 @@ import { StyleSheet, Text, TouchableWithoutFeedback, View, KeyboardAvoidingView,
 import Header from './components/Header/Header';
 import { colorsPalette } from './styles';
 import Footer from './components/Footer/Footer';
-import { exitField, isEmptyObject } from './utils/common';
+import { IS_WEB, exitField } from './utils/common';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { PersonalInfo } from './components/MultiStepForm/PersonalInfo/PersonalInfo';
 import { SelectPlan } from './components/MultiStepForm/SelectPlan/SelectPlan';
-import { horizontalTransition } from './utils/animations';
+import { horizontalTransition, horizontalTransitionWeb } from './utils/animations';
 import { ERROR_FIELD_REQUIRED, ERROR_FORMAT_INVALID, ERROR_SELECT_PLAN, REGEX_EMAIL, REGEX_NAME, REGEX_PHONE, theme } from './utils/const';
 import { IPersonalInfo } from './interfaces/IFormInput';
 import { MultiStepFormStackParamList } from './types/Navigation';
@@ -26,9 +26,9 @@ export default function App(): JSX.Element {
 
   const [step, setStep] = useState<number>(MultiStepFormEnums.PersonalInfo)
   const [personalInfo, setPersonalInfo] = useState<IPersonalInfo>({
-    name: "Corinnnne Lebeault",
-    email: "patrice.lbt@diiage.org",
-    phone: "11111111",
+    name: "",
+    email: "",
+    phone: "",
   })
   const [errorMessages, setErrorMessages] = useState({})
   const [planSelected, setPlanSelected] = useState("")
@@ -36,7 +36,7 @@ export default function App(): JSX.Element {
   const [addons, setAddons] = useState<string[]>([])
   const [formIsSubmit, setFormIsSubmit] = useState<boolean>(false)
 
-  let [fontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     "Ubuntu-Regular": Ubuntu_400Regular,
     "Ubuntu-Medium": Ubuntu_500Medium,
     "Ubuntu-Bold": Ubuntu_700Bold,
@@ -147,8 +147,8 @@ export default function App(): JSX.Element {
     <>
       <StatusBar style="auto" />
       <TouchableWithoutFeedback touchSoundDisabled onPress={() => exitField()}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        <View
+          // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.container}>
           <Header currentStep={step} />
           <View style={styles.stepContainer}>
@@ -158,7 +158,8 @@ export default function App(): JSX.Element {
                 // initialRouteName="FinishUp"
                 screenOptions={{
                   headerShown: false,
-                  ...horizontalTransition,
+                  // ...(IS_WEB ? horizontalTransitionWeb : horizontalTransition)
+                  ...horizontalTransition
                 }}
               >
                 <Stack.Screen name="PersonalInfo">
@@ -215,8 +216,8 @@ export default function App(): JSX.Element {
               formIsSubmit={formIsSubmit}
             />
           </View>
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback >
     </>
   );
 }
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     flex: 1,
-    marginTop: -73,
+    marginTop: -50,
   },
   footerContainer: {
     height: 72,
