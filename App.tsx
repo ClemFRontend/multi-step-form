@@ -1,7 +1,7 @@
 import { useFonts, Ubuntu_400Regular, Ubuntu_700Bold, Ubuntu_500Medium } from '@expo-google-fonts/ubuntu';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, TouchableWithoutFeedback, View, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, TouchableWithoutFeedback, View, KeyboardAvoidingView, Platform, Image, Pressable, Linking } from 'react-native';
 import Header from './components/Header/Header';
 import { colorsPalette } from './styles';
 import Footer from './components/Footer/Footer';
@@ -10,7 +10,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { PersonalInfo } from './components/MultiStepForm/PersonalInfo/PersonalInfo';
 import { SelectPlan } from './components/MultiStepForm/SelectPlan/SelectPlan';
-import { horizontalTransition, horizontalTransitionWeb } from './utils/animations';
+import { horizontalTransitionWeb } from './utils/animations';
 import { ERROR_FIELD_REQUIRED, ERROR_FORMAT_INVALID, ERROR_SELECT_PLAN, REGEX_EMAIL, REGEX_NAME, REGEX_PHONE, theme } from './utils/const';
 import { IPersonalInfo } from './interfaces/IFormInput';
 import { MultiStepFormStackParamList } from './types/Navigation';
@@ -19,6 +19,8 @@ import { PlanType } from './types/Plan';
 import { IPersonalInfoErrors } from './interfaces/IErrors';
 import { FinishUp } from './components/MultiStepForm/FinishUp/FinishUp';
 import { MultiStepFormEnums } from './components/MultiStepForm/MultiStepFormEnums';
+import { BodyText } from './components/Text/Text';
+import { ExternalLinkButton } from './components/ExternalLinkButton/ExternalLinkButton';
 
 const Stack = createStackNavigator<MultiStepFormStackParamList>();
 
@@ -145,79 +147,104 @@ export default function App(): JSX.Element {
 
   return (
     <>
-      <StatusBar style="auto" />
-      <TouchableWithoutFeedback touchSoundDisabled onPress={() => exitField()}>
-        <View
-          // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.container}>
-          <Header currentStep={step} />
-          <View style={styles.stepContainer}>
-            <NavigationContainer theme={theme} >
-              <Stack.Navigator
-                initialRouteName="PersonalInfo"
-                // initialRouteName="FinishUp"
-                screenOptions={{
-                  headerShown: false,
-                  // ...(IS_WEB ? horizontalTransitionWeb : horizontalTransition)
-                  ...horizontalTransition
-                }}
-              >
-                <Stack.Screen name="PersonalInfo">
-                  {(props) =>
-                    <PersonalInfo
-                      {...props}
-                      currentStep={step}
-                      handleChangeInfo={handleChangePersonalInfo}
-                      personalInfo={personalInfo}
-                      errors={errorMessages}
-
-                    />}
-                </Stack.Screen>
-                <Stack.Screen name="SelectPlan">
-                  {(props) =>
-                    <SelectPlan
-                      {...props}
-                      currentStep={step}
-                      planSelected={planSelected}
-                      planType={planType}
-                      handlePlanSelected={setPlanSelected}
-                      togglePlanType={togglePlanType}
-                      errors={errorMessages}
-                    />}
-                </Stack.Screen>
-                <Stack.Screen name="PickAddons">
-                  {(props) =>
-                    <PickAddons
-                      {...props}
-                      currentStep={step}
-                      planType={planType}
-                      addonsChecked={addons}
-                      handleChangeAddons={handleChangeAddons}
-
-                    />}
-                </Stack.Screen>
-                <Stack.Screen name="FinishUp">
-                  {(props) =>
-                    <FinishUp
-                      {...props}
-                      planSelected={planSelected}
-                      planType={planType}
-                      addonsChecked={addons}
-                      togglePlanType={togglePlanType}
-                      currentStep={step}
-                      formIsSubmit={formIsSubmit}
-                    />}
-                </Stack.Screen>
-              </Stack.Navigator>
-            </NavigationContainer>
-            <Footer
-              handleChangeStep={handleChangeStep}
-              currentStep={step}
-              formIsSubmit={formIsSubmit}
-            />
+      {/* Web -> redirect to Expo */}
+      {IS_WEB ?
+        <View style={{
+          display: "flex",
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
+          <View style={{
+            height: 600,
+          }}>
+            <Image
+              resizeMode='contain'
+              style={{
+                width: "100%",
+                height: "100%"
+              }}
+              source={require("./docs/result.png")} />
+            <ExternalLinkButton url="https://snack.expo.dev/@clemfrontend/a4edc7?platform=ios" buttonTitle='Go to Expo Snack' />
           </View>
         </View>
-      </TouchableWithoutFeedback >
+        :
+        <>
+          {/* Mobile -> Multi step form  */}
+          <StatusBar style="auto" />
+          <TouchableWithoutFeedback touchSoundDisabled onPress={() => exitField()}>
+            <View
+              // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              style={styles.container}>
+              <Header currentStep={step} />
+              <View style={styles.stepContainer}>
+                <NavigationContainer theme={theme} >
+                  <Stack.Navigator
+                    initialRouteName="PersonalInfo"
+                    // initialRouteName="FinishUp"
+                    screenOptions={{
+                      headerShown: false,
+                      ...(IS_WEB && horizontalTransitionWeb)
+                    }}
+                  >
+                    <Stack.Screen name="PersonalInfo">
+                      {(props) =>
+                        <PersonalInfo
+                          {...props}
+                          currentStep={step}
+                          handleChangeInfo={handleChangePersonalInfo}
+                          personalInfo={personalInfo}
+                          errors={errorMessages}
+
+                        />}
+                    </Stack.Screen>
+                    <Stack.Screen name="SelectPlan">
+                      {(props) =>
+                        <SelectPlan
+                          {...props}
+                          currentStep={step}
+                          planSelected={planSelected}
+                          planType={planType}
+                          handlePlanSelected={setPlanSelected}
+                          togglePlanType={togglePlanType}
+                          errors={errorMessages}
+                        />}
+                    </Stack.Screen>
+                    <Stack.Screen name="PickAddons">
+                      {(props) =>
+                        <PickAddons
+                          {...props}
+                          currentStep={step}
+                          planType={planType}
+                          addonsChecked={addons}
+                          handleChangeAddons={handleChangeAddons}
+
+                        />}
+                    </Stack.Screen>
+                    <Stack.Screen name="FinishUp">
+                      {(props) =>
+                        <FinishUp
+                          {...props}
+                          planSelected={planSelected}
+                          planType={planType}
+                          addonsChecked={addons}
+                          togglePlanType={togglePlanType}
+                          currentStep={step}
+                          formIsSubmit={formIsSubmit}
+                        />}
+                    </Stack.Screen>
+                  </Stack.Navigator>
+                </NavigationContainer>
+                <Footer
+                  handleChangeStep={handleChangeStep}
+                  currentStep={step}
+                  formIsSubmit={formIsSubmit}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback >
+        </>
+      }
     </>
   );
 }
